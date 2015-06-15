@@ -10,6 +10,10 @@ describe('Calculates mortgage', function() {
       expect(mortgage['loan-amount']({"price": 220000, "downpayment": 40000})).to.equal(180000);
     });
 
+    it('Positive test - should return the loan amount of $160,000 given downpayment-percent of ', function() {
+      expect(mortgage['loan-amount']({"price": 220000, "downpayment": 40000})).to.equal(180000);
+    });
+
     it('Positive test - should return 0 for loan amount with no price and downpayment', function() {
       expect(mortgage['loan-amount']({})).to.equal(0);
     });
@@ -36,6 +40,12 @@ describe('Calculates mortgage', function() {
       expect(mortgage['downpayment']({'downpayment-percent': 10, 'price': 200000})).to.equal(20000);
     });
   });
+
+  describe('downpayment scenario', function() {
+    it('Positive test - Given downpayment-percent of 20% and price of $200,000, downpayment should return $50,000 and loan-amount of $160,000', function() {
+      expect(mortgage['do'])
+    })
+  })
 
   describe('processing', function() {
     it('Positive test - should return the correct processing with the given data', function() {

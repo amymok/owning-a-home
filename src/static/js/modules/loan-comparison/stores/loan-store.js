@@ -6,7 +6,6 @@ var assign = require('object-assign');
 var jumbo = require('jumbo-mortgage');
 var mortgageCalculations = require('../mortgage-calculations');
 var common = require('../common');
-var api = require('../api');
 var $ = jQuery = require('jquery');
 var ScenarioStore = require('./scenario-store');
 
@@ -110,16 +109,10 @@ function updateLoan(id, prop, val) {
     }
 }
 
-function updateDependencies (loan, prop) {
-    if (prop === 'price' || prop === 'downpayment') {
-        loan['downpayment-percent'] = mortgageCalculations['downpayment-percent'](loan);
-    } else if (!prop || prop === 'downpayment-percent') {
-        loan['downpayment'] = mortgageCalculations['downpayment'](loan);        
-    }
-    return loan;
-}
 
 function fetchRates(loan) {
+
+    var api = require('../api');
     if (loan['rate-request']) {
         api.stopRequest(loan['rate-request']);
     }   
@@ -127,6 +120,8 @@ function fetchRates(loan) {
 }
 
 function fetchIns(loan) {
+
+    var api = require('../api');
     if (loan['mtg-ins-request']) {
         api.stopRequest(loan['mtg-ins-request']);
     }
@@ -263,6 +258,24 @@ var LoanStore = assign({}, EventEmitter.prototype, {
     * Get the entire collection of loans.
     * @return {object}
     */
+
+    // update all the loans
+    updateAllLoans: function(prop, val, _loans) {
+    for (var id in _loans) {
+        updateLoan(id, prop, val);
+        }
+    },
+
+    updateDependencies: function(loan, prop) {
+    if (prop === 'price' || prop === 'downpayment') {
+        loan['downpayment-percent'] = mortgageCalculations['downpayment-percent'](loan);
+    } else if (!prop || prop === 'downpayment-percent') {
+        loan['downpayment'] = mortgageCalculations['downpayment'](loan);        
+    }
+    return loan;
+},
+
+
     getAll: function() {
         return _loans;
     },
