@@ -81,6 +81,15 @@ function resetLoans (init) {
     }    
 }
 
+function updateDependencies(loan, prop) {
+    if (prop === 'price' || prop === 'downpayment') {
+        loan['downpayment-percent'] = mortgageCalculations['downpayment-percent'](loan);
+    } else if (!prop || prop === 'downpayment-percent') {
+        loan['downpayment'] = mortgageCalculations['downpayment'](loan);        
+    }
+    return loan;
+}
+
 // update all the loans
 function updateAllLoans(prop, val) {
     for (var id in _loans) {

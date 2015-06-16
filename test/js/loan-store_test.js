@@ -1,13 +1,16 @@
 var chai = require('chai');
 var expect = chai.expect;
 var loanStore =require('../../src/static/js/modules/loan-comparison/stores/loan-store.js');
-var  $ = require('jquery');
+// var  $ = require('jquery');
 var  sinon = require('sinon');
 //
 
 
 describe('Loan store validation', function() {
- 
+ var $;
+  before(function () {
+    $ = require('jquery');
+  });
  
   describe('loan store', function() {   
    it('should change downpayment percentage', function(){
@@ -21,7 +24,7 @@ describe('Loan store validation', function() {
     //when
     loanStore.updateDependencies(loan, prop);
 
-    expect(loan['downpayment-percent']).toEqual(25);
+    expect(loan['downpayment-percent']).to.equal(25);
     //then
    });    
   });
